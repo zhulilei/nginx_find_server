@@ -1,0 +1,6 @@
+nginx_find_server -P "/a/b" -S "study.163.com"
+nginx_find_server -P "/a/b" -U "study"
+
+-P 路径
+-S 搜索的域名
+-U 搜索的upstream名称
