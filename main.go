@@ -117,15 +117,21 @@ func (records nginxslice) matchName(server_name string, upstream_name string) (m
 	switch find {
 	case 0:
 		for i, v := range records {
-			if strings.Contains(v, " "+server_name+";") || strings.Contains(v, " "+server_name+" ") {
-				matchIndexSlice = append(matchIndexSlice, i+1)
+			if strings.Contains(v, "server_name") {
+				if strings.Contains(v, " "+server_name+";") || strings.Contains(v, " "+server_name+" ") {
+					matchIndexSlice = append(matchIndexSlice, i+1)
+				}
 			}
+
 		}
 	case 1:
 		for i, v := range records {
-			if strings.Contains(v, "upstream") && strings.Contains(v, upstream_name) {
-				matchIndexSlice = append(matchIndexSlice, i)
+			if strings.Contains(v, "upstream") {
+				if strings.Contains(v, " "+upstream_name+" ") || strings.Contains(v, " "+upstream_name+"{") {
+					matchIndexSlice = append(matchIndexSlice, i)
+				}
 			}
+
 		}
 
 	}
@@ -140,6 +146,7 @@ func (records nginxslice) findStart(matchIndex int) (startIndex int) {
 	case 0:
 		for startIndex := matchIndex; startIndex >= 0; startIndex-- {
 			if strings.Contains(records[startIndex], "server") && strings.Contains(records[startIndex], "{") {
+				//fmt.Println(startIndex + 1)
 				return startIndex + 1
 			}
 		}
