@@ -111,6 +111,7 @@ func CheckErr(err error) {
 func listProxyPass(file_name, upstream string) {
 	find = 1
 	asFile(file_name, "", upstream)
+	asFile("/etc/nginx/conf.d/upstream.conf", "", upstream)
 
 }
 
